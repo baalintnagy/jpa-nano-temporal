@@ -20,7 +20,7 @@ import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
  *     @Id
  *     private Long id;
  *     
- *     @Convert(converter = InstantTemporalConverter.class)
+ *     @Convert(converter = InstantConverter.class)
  *     @Column(name = "event_timestamp_seconds")
  *     private Instant timestamp;
  * }
@@ -34,7 +34,7 @@ import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
  * @since 1.0.0
  */
 @Converter(autoApply = false)
-public class InstantTemporalConverter implements AttributeConverter<Instant, EmbeddableTemporal> {
+public class InstantConverter implements AttributeConverter<Instant, EmbeddableTemporal> {
 
     @Override
     public EmbeddableTemporal convertToDatabaseColumn(Instant attribute) {

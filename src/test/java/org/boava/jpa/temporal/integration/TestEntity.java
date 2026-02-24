@@ -13,8 +13,8 @@ import jakarta.persistence.Table;
 import java.time.Duration;
 import java.time.Instant;
 
-import org.boava.jpa.temporal.converter.DurationTemporalConverter;
-import org.boava.jpa.temporal.converter.InstantTemporalConverter;
+import org.boava.jpa.temporal.converter.DurationConverter;
+import org.boava.jpa.temporal.converter.InstantConverter;
 
 /**
  * Test entity for integration testing of EmbeddableTemporal and converters.
@@ -35,7 +35,7 @@ public class TestEntity {
     private String description;
 
     // Using converter for Instant - this will map to two columns: seconds and nanos
-    @Convert(converter = InstantTemporalConverter.class)
+    @Convert(converter = InstantConverter.class)
     @AttributeOverrides({
         @AttributeOverride(name = "seconds", column = @Column(name = "timestamp_seconds")),
         @AttributeOverride(name = "nanos", column = @Column(name = "timestamp_nanos"))
@@ -43,7 +43,7 @@ public class TestEntity {
     private Instant timestamp;
 
     // Using converter for Duration - this will map to two columns: seconds and nanos
-    @Convert(converter = DurationTemporalConverter.class)
+    @Convert(converter = DurationConverter.class)
     @AttributeOverrides({
         @AttributeOverride(name = "seconds", column = @Column(name = "duration_seconds")),
         @AttributeOverride(name = "nanos", column = @Column(name = "duration_nanos"))

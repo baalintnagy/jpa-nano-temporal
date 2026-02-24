@@ -10,23 +10,25 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import org.boava.jpa.temporal.converter.InstantConverter;
+import org.boava.jpa.temporal.converter.DurationConverter;
 import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 
 @DisplayName("TemporalAttributeConverter Tests")
 class TemporalAttributeConverterTest {
 
-    private InstantTemporalConverter instantConverter;
-    private DurationTemporalConverter durationConverter;
+    private InstantConverter instantConverter;
+    private DurationConverter durationConverter;
 
     @BeforeEach
     void setUp() {
-        instantConverter = new InstantTemporalConverter();
-        durationConverter = new DurationTemporalConverter();
+        instantConverter = new InstantConverter();
+        durationConverter = new DurationConverter();
     }
 
     @Nested
-    @DisplayName("InstantTemporalConverter Tests")
-    class InstantTemporalConverterTests {
+    @DisplayName("InstantConverter Tests")
+    class InstantConverterTests {
 
         @Test
         @DisplayName("Should convert Instant to EmbeddableTemporal")
@@ -81,8 +83,8 @@ class TemporalAttributeConverterTest {
     }
 
     @Nested
-    @DisplayName("DurationTemporalConverter Tests")
-    class DurationTemporalConverterTests {
+    @DisplayName("DurationConverter Tests")
+    class DurationConverterTests {
 
         @Test
         @DisplayName("Should convert Duration to EmbeddableTemporal")
