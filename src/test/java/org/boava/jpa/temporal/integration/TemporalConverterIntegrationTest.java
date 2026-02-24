@@ -1,7 +1,8 @@
 package org.boava.jpa.temporal.integration;
 
-import org.boava.jpa.temporal.integration.TestEntity;
 import static org.boava.jpa.temporal.test.TestConstants.*;
+import static java.time.Duration.ofSeconds;
+import static java.time.Instant.ofEpochSecond;
 import static org.assertj.core.api.Assertions.*;
 
 import jakarta.persistence.EntityManager;
@@ -91,13 +92,13 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should maintain precision across multiple operations")
         void shouldMaintainPrecisionAcrossMultipleOperations() {
-            Instant highPrecision = Instant.ofEpochSecond(TestConstants.ALT_SECONDS, TestConstants.ALT_NANOS);
+            Instant highPrecision = ofEpochSecond(TestConstants.ALT_SECONDS, TestConstants.ALT_NANOS);
             
             TestEntity event = new TestEntity(
                 "Precision Test", 
                 "Testing high precision", 
                 highPrecision, 
-                Duration.ofSeconds(12345L, 678901234L)
+                ofSeconds(12345L, 678901234L)
             );
 
             em.getTransaction().begin();
@@ -197,21 +198,21 @@ class TemporalConverterIntegrationTest {
             TestEntity entity1 = new TestEntity(
                 "Entity 1", 
                 "First entity", 
-                Instant.ofEpochSecond(1000000000L, 100000000L), 
+                ofEpochSecond(1000000000L, 100000000L), 
                 Duration.ofHours(1)
             );
             
             TestEntity entity2 = new TestEntity(
                 "Entity 2", 
                 "Second entity", 
-                Instant.ofEpochSecond(2000000000L, 200000000L), 
+                ofEpochSecond(2000000000L, 200000000L), 
                 Duration.ofHours(2)
             );
             
             TestEntity entity3 = new TestEntity(
                 "Entity 3", 
                 "Third entity", 
-                Instant.ofEpochSecond(3000000000L, 300000000L), 
+                ofEpochSecond(3000000000L, 300000000L), 
                 Duration.ofHours(3)
             );
 
@@ -228,15 +229,15 @@ class TemporalConverterIntegrationTest {
 
             assertThat(entities).hasSize(3);
             assertThat(entities.get(0).getName()).isEqualTo("Entity 1");
-            assertThat(entities.get(0).getTimestamp().getNano()).isEqualTo(100000000);
+            assertThat(entities.get(0).getTimestamp().getNano()).isEqualTo(HUNDRED_MILLION_NANOS);
             assertThat(entities.get(0).getDuration().toHours()).isEqualTo(1);
             
             assertThat(entities.get(1).getName()).isEqualTo("Entity 2");
-            assertThat(entities.get(1).getTimestamp().getNano()).isEqualTo(200000000);
+            assertThat(entities.get(1).getTimestamp().getNano()).isEqualTo(2 * HUNDRED_MILLION_NANOS);
             assertThat(entities.get(1).getDuration().toHours()).isEqualTo(2);
             
             assertThat(entities.get(2).getName()).isEqualTo("Entity 3");
-            assertThat(entities.get(2).getTimestamp().getNano()).isEqualTo(300000000);
+            assertThat(entities.get(2).getTimestamp().getNano()).isEqualTo(3 * HUNDRED_MILLION_NANOS);
             assertThat(entities.get(2).getDuration().toHours()).isEqualTo(3);
         }
     }
@@ -271,8 +272,8 @@ class TemporalConverterIntegrationTest {
         @DisplayName("Should handle maximum precision values within limits")
         void shouldHandleMaximumPrecisionValuesWithinLimits() {
             // Use values that are within Instant limits but still test high precision
-            Instant highPrecision = Instant.ofEpochSecond(1000000000L, 999999999L);
-            Duration highPrecisionDuration = Duration.ofSeconds(1000000000L, 999999999L);
+            Instant highPrecision = ofEpochSecond(1000000000L, 999999999L);
+            Duration highPrecisionDuration = ofSeconds(1000000000L, 999999999L);
             
             TestEntity event = new TestEntity(
                 "Max Precision Test", 

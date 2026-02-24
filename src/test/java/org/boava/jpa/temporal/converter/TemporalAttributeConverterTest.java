@@ -12,6 +12,8 @@ import org.junit.jupiter.api.Test;
 
 import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 import static org.boava.jpa.temporal.test.TestConstants.*;
+import static java.time.Duration.ofSeconds;
+import static java.time.Instant.ofEpochSecond;
 
 @DisplayName("TemporalAttributeConverter Tests")
 class TemporalAttributeConverterTest {
@@ -72,7 +74,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should maintain precision through round-trip conversion")
         void shouldMaintainPrecisionThroughRoundTripConversion() {
-            Instant original = Instant.ofEpochSecond(STANDARD_SECONDS, 987654321);
+            Instant original = ofEpochSecond(STANDARD_SECONDS, 987654321);
             
             EmbeddableTemporal dbData = instantConverter.convertToDatabaseColumn(original);
             Instant roundTrip = instantConverter.convertToEntityAttribute(dbData);
@@ -128,7 +130,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should maintain precision through round-trip conversion")
         void shouldMaintainPrecisionThroughRoundTripConversion() {
-            Duration original = Duration.ofSeconds(ALT_SECONDS, STANDARD_NANOS);
+            Duration original = ofSeconds(ALT_SECONDS, STANDARD_NANOS);
             
             EmbeddableTemporal dbData = durationConverter.convertToDatabaseColumn(original);
             Duration roundTrip = durationConverter.convertToEntityAttribute(dbData);

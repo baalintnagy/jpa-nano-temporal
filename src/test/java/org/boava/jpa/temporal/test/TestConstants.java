@@ -3,6 +3,9 @@ package org.boava.jpa.temporal.test;
 import java.time.Duration;
 import java.time.Instant;
 
+import static java.time.Duration.ofSeconds;
+import static java.time.Instant.ofEpochSecond;
+
 /**
  * Constants used across temporal converter tests.
  * This class centralizes test data to avoid duplication and improve maintainability.
@@ -30,7 +33,6 @@ public final class TestConstants {
     public static final long MAX_INSTANT_SECONDS = 31556889864403199L;
     public static final int MAX_NANOS = 999_999_999;
     
-    // Zero and epoch values
     public static final long ZERO_SECONDS = 0L;
     public static final int ZERO_NANOS = 0;
 
@@ -49,16 +51,16 @@ public final class TestConstants {
     public static final int ONE_AND_HALF_BILLION_NANOS = 1_500_000_000;
     
     // Pre-created temporal objects
-    public static final Instant STANDARD_INSTANT = Instant.ofEpochSecond(STANDARD_SECONDS, STANDARD_NANOS);
-    public static final Instant ALT_INSTANT = Instant.ofEpochSecond(ALT_SECONDS, ALT_NANOS);
-    public static final Instant SIMPLE_INSTANT = Instant.ofEpochSecond(SIMPLE_SECONDS, SIMPLE_NANOS);
-    public static final Instant NEGATIVE_INSTANT = Instant.ofEpochSecond(NEGATIVE_SECONDS, NEGATIVE_NANOS);
-    public static final Instant MAX_INSTANT = Instant.ofEpochSecond(MAX_INSTANT_SECONDS, MAX_NANOS);
+    public static final Instant STANDARD_INSTANT = ofEpochSecond(STANDARD_SECONDS, STANDARD_NANOS);
+    public static final Instant ALT_INSTANT = ofEpochSecond(ALT_SECONDS, ALT_NANOS);
+    public static final Instant SIMPLE_INSTANT = ofEpochSecond(SIMPLE_SECONDS, SIMPLE_NANOS);
+    public static final Instant NEGATIVE_INSTANT = ofEpochSecond(NEGATIVE_SECONDS, NEGATIVE_NANOS);
+    public static final Instant MAX_INSTANT = ofEpochSecond(MAX_INSTANT_SECONDS, MAX_NANOS);
     
-    public static final Duration STANDARD_DURATION = Duration.ofSeconds(STANDARD_SECONDS, STANDARD_NANOS);
-    public static final Duration ALT_DURATION = Duration.ofSeconds(ALT_SECONDS, ALT_NANOS);
-    public static final Duration SIMPLE_DURATION = Duration.ofSeconds(SIMPLE_SECONDS, SIMPLE_NANOS);
-    public static final Duration NEGATIVE_DURATION = Duration.ofSeconds(NEGATIVE_SECONDS, NEGATIVE_NANOS);
-    public static final Duration MAX_DURATION = Duration.ofSeconds(MAX_INSTANT_SECONDS, MAX_NANOS);
+    public static final Duration STANDARD_DURATION = ofSeconds(STANDARD_SECONDS, STANDARD_NANOS);
+    public static final Duration ALT_DURATION = ofSeconds(ALT_SECONDS, ALT_NANOS);
+    public static final Duration SIMPLE_DURATION = ofSeconds(SIMPLE_SECONDS, SIMPLE_NANOS);
+    public static final Duration NEGATIVE_DURATION = ofSeconds(NEGATIVE_SECONDS, NEGATIVE_NANOS);
+    public static final Duration MAX_DURATION = ofSeconds(MAX_INSTANT_SECONDS, MAX_NANOS);
     
     }

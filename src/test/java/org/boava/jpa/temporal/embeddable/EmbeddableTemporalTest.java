@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import static org.boava.jpa.temporal.test.TestConstants.*;
+import static java.time.Duration.ofSeconds;
+import static java.time.Instant.ofEpochSecond;
 import java.util.stream.Stream;
 
 @DisplayName("EmbeddableTemporal Tests")
@@ -30,7 +32,7 @@ class EmbeddableTemporalTest {
     static Stream<NormalizationTestCase> provideNormalizationTestData() {
         return Stream.of(
             new NormalizationTestCase(ZERO_SECONDS, ZERO_NANOS, ZERO_SECONDS, ZERO_NANOS),
-            new NormalizationTestCase(HUNDRED_SECONDS, MAX_NANOS, 100L, MAX_NANOS),
+            new NormalizationTestCase(HUNDRED_SECONDS, MAX_NANOS, HUNDRED_SECONDS, MAX_NANOS),
             new NormalizationTestCase(HUNDRED_SECONDS, ONE_BILLION_NANOS, 101L, ZERO_NANOS),
             new NormalizationTestCase(HUNDRED_SECONDS, ONE_AND_HALF_BILLION_NANOS, 101L, FIVE_HUNDRED_MILLION_NANOS),
             new NormalizationTestCase(HUNDRED_SECONDS, -ONE_NANOS, 99, MAX_NANOS),
@@ -439,7 +441,7 @@ class EmbeddableTemporalTest {
             assertThat(roundTripInstant).isEqualTo(instant);
             
             // Duration -> EmbeddableTemporal -> Duration
-            Duration duration = Duration.ofSeconds(instant.getEpochSecond(), instant.getNano());
+            Duration duration = ofSeconds(instant.getEpochSecond(), instant.getNano());
             EmbeddableTemporal temporalFromDuration = EmbeddableTemporal.from(duration);
             Duration roundTripDuration = temporalFromDuration.toDuration();
             
@@ -453,13 +455,13 @@ class EmbeddableTemporalTest {
     static Instant[] provideInstants() {
         return new Instant[] {
             Instant.EPOCH,
-            Instant.ofEpochSecond(ZERO_SECONDS, ONE_NANOS),
-            Instant.ofEpochSecond(ZERO_SECONDS, MAX_NANOS),
-            Instant.ofEpochSecond(ONE_SECONDS, ZERO_NANOS),
-            Instant.ofEpochSecond(STANDARD_SECONDS, STANDARD_NANOS),
+            ofEpochSecond(ZERO_SECONDS, ONE_NANOS),
+            ofEpochSecond(ZERO_SECONDS, MAX_NANOS),
+            ofEpochSecond(ONE_SECONDS, ZERO_NANOS),
+            ofEpochSecond(STANDARD_SECONDS, STANDARD_NANOS),
             NEGATIVE_INSTANT,
             MAX_INSTANT,
-            Instant.ofEpochSecond(-31557014167219200L, ZERO_NANOS) // Instant.MIN
+            ofEpochSecond(-31557014167219200L, ZERO_NANOS) // Instant.MIN
         };
     }
 
