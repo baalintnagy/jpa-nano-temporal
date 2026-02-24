@@ -167,7 +167,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should handle maximum precision values")
         void shouldHandleMaximumPrecisionValues() {
-            Instant maxPrecision = Instant.ofEpochSecond(Long.MAX_VALUE, 999_999_999);
+            Instant maxPrecision = Instant.ofEpochSecond(31556889864403199L, 999_999_999); // Instant.MAX
             
             EmbeddableTemporal dbData = instantConverter.convertToDatabaseColumn(maxPrecision);
             Instant roundTrip = instantConverter.convertToEntityAttribute(dbData);

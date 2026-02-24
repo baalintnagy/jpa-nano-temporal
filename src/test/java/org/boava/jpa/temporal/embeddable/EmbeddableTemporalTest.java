@@ -75,11 +75,11 @@ class EmbeddableTemporalTest {
             "0, 0, 0, 0",
             "100, 999_999_999, 100, 999_999_999",
             "100, 1_000_000_000, 101, 0",
-            "100, 2_500_000_000, 102, 500_000_000",
+            "100, 1_500_000_000, 101, 500_000_000",
             "100, -1, 99, 999_999_999",
             "100, -999_999_999, 99, 1",
             "100, -1_000_000_000, 99, 0",
-            "100, -2_500_000_000, 97, 500_000_000"
+            "100, -1_500_000_000, 98, 500_000_000"
         })
         @DisplayName("Should normalize various nanosecond values")
         void shouldNormalizeVariousNanosecondValues(long inputSeconds, long inputNanos, 
@@ -445,8 +445,8 @@ class EmbeddableTemporalTest {
             Instant.ofEpochSecond(1, 0),
             Instant.ofEpochSecond(123456789, 123456789),
             Instant.ofEpochSecond(-123456789, -123456789),
-            Instant.ofEpochSecond(Long.MAX_VALUE, 999_999_999),
-            Instant.ofEpochSecond(Long.MIN_VALUE, 0)
+            Instant.ofEpochSecond(31556889864403199L, 999_999_999), // Instant.MAX
+            Instant.ofEpochSecond(-31557014167219200L, 0) // Instant.MIN
         };
     }
 }

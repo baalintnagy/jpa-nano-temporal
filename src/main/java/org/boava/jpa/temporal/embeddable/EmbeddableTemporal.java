@@ -159,9 +159,20 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
         if (nanos >= 0 && nanos < 1_000_000_000) {
             return;
         }
-        long carry = Math.floorDiv(nanos, 1_000_000_000);
-        this.seconds += carry;
-        this.nanos = Math.floorMod(nanos, 1_000_000_000);
+        
+        if (nanos >= 1_000_000_000) {
+            // Positive overflow: add extra seconds
+            long carry = nanos / 1_000_000_000;
+            this.seconds += carry;
+            this.nanos = nanos % 1_000_000_000;
+        } else {
+            // Negative nanoseconds: borrow from seconds
+            // Handle negative nanos properly
+            long absNanos = -(long) nanos; // Convert to positive for calculation
+            long carry = (absNanos + 999_999_999) / 1_000_000_000; // ceiling division
+            this.seconds -= carry;
+            this.nanos += carry * 1_000_000_000;
+        }
     }
 
     @Override
