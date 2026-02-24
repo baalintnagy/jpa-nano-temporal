@@ -1,4 +1,4 @@
-package io.temporal.precision.embeddable;
+package org.boava.jpa.temporal.embeddable;
 
 import java.io.Serializable;
 import java.time.Duration;
@@ -48,7 +48,7 @@ import jakarta.persistence.Embeddable;
  * }
  * }</pre>
  * 
- * @author Temporal Precision Team
+ * @author Boava Team
  * @since 1.0.0
  */
 @Embeddable

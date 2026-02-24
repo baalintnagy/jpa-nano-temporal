@@ -4,14 +4,14 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>io.github.temporal-precision</groupId>
-    <artifactId>embeddable-temporal</artifactId>
+    <groupId>org.boava</groupId>
+    <artifactId>jpa.temporal</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>Embeddable Temporal</name>
+    <name>JPA Temporal</name>
     <description>A JPA embeddable type for storing temporal values with nanosecond precision across different databases</description>
-    <url>https://github.com/temporal-precision/embeddable-temporal</url>
+    <url>https://github.com/boava/jpa-temporal</url>
 
     <licenses>
         <license>
@@ -23,17 +23,17 @@
 
     <developers>
         <developer>
-            <name>Temporal Precision Team</name>
-            <email>contact@temporal-precision.io</email>
-            <organization>Temporal Precision</organization>
-            <organizationUrl>https://github.com/temporal-precision</organizationUrl>
+            <name>Boava Team</name>
+            <email>contact@boava.org</email>
+            <organization>Boava</organization>
+            <organizationUrl>https://github.com/boava</organizationUrl>
         </developer>
     </developers>
 
     <scm>
-        <connection>scm:git:git://github.com/temporal-precision/embeddable-temporal.git</connection>
-        <developerConnection>scm:git:ssh://github.com:temporal-precision/embeddable-temporal.git</developerConnection>
-        <url>http://github.com/temporal-precision/embeddable-temporal/tree/main</url>
+        <connection>scm:git:git://github.com/boava/jpa-temporal.git</connection>
+        <developerConnection>scm:git:ssh://github.com:boava/jpa-temporal.git</developerConnection>
+        <url>http://github.com/boava/jpa-temporal/tree/main</url>
     </scm>
 
     <properties>

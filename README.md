@@ -1,8 +1,8 @@
-# Embeddable Temporal
+# JPA Temporal
 
-[![CI](https://github.com/temporal-precision/embeddable-temporal/workflows/CI/badge.svg)](https://github.com/temporal-precision/embeddable-temporal/actions)
-[![codecov](https://codecov.io/gh/temporal-precision/embeddable-temporal/branch/main/graph/badge.svg)](https://codecov.io/gh/temporal-precision/embeddable-temporal)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.temporal-precision/embeddable-temporal.svg)](https://search.maven.org/search?q=g:io.github.temporal-precision%20AND%20a:embeddable-temporal)
+[![CI](https://github.com/boava/jpa-temporal/workflows/CI/badge.svg)](https://github.com/boava/jpa-temporal/actions)
+[![codecov](https://codecov.io/gh/boava/jpa-temporal/branch/main/graph/badge.svg)](https://codecov.io/gh/boava/jpa-temporal)
+[![Maven Central](https://img.shields.io/maven-central/v/org.boava/jpa.temporal.svg)](https://search.maven.org/search?q=g:org.boava%20AND%20a:jpa.temporal)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A JPA embeddable type for storing temporal values with nanosecond precision across different databases.
@@ -30,8 +30,8 @@ Add the dependency to your `pom.xml`:
 
 ```xml
 <dependency>
-    <groupId>io.github.temporal-precision</groupId>
-    <artifactId>embeddable-temporal</artifactId>
+    <groupId>org.boava</groupId>
+    <artifactId>jpa.temporal</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -39,7 +39,7 @@ Add the dependency to your `pom.xml`:
 Or to your `build.gradle`:
 
 ```groovy
-implementation 'io.github.temporal-precision:embeddable-temporal:1.0.0'
+implementation 'org.boava:jpa.temporal:1.0.0'
 ```
 
 ## 🔧 Quick Start
@@ -47,7 +47,7 @@ implementation 'io.github.temporal-precision:embeddable-temporal:1.0.0'
 ### Basic Usage in JPA Entities
 
 ```java
-import io.temporal.precision.embeddable.EmbeddableTemporal;
+import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 import jakarta.persistence.*;
 
 @Entity
@@ -209,8 +209,8 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 
 ```bash
 # Clone the repository
-git clone https://github.com/temporal-precision/embeddable-temporal.git
-cd embeddable-temporal
+git clone https://github.com/boava/jpa-temporal.git
+cd jpa-temporal
 
 # Run tests
 mvn clean verify
@@ -231,10 +231,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Support
 
-- 📖 [Documentation](https://github.com/temporal-precision/embeddable-temporal/wiki)
-- 🐛 [Issue Tracker](https://github.com/temporal-precision/embeddable-temporal/issues)
-- 💬 [Discussions](https://github.com/temporal-precision/embeddable-temporal/discussions)
+- 📖 [Documentation](https://github.com/boava/jpa-temporal/wiki)
+- 🐛 [Issue Tracker](https://github.com/boava/jpa-temporal/issues)
+- 💬 [Discussions](https://github.com/boava/jpa-temporal/discussions)
 
 ---
 
-**Made with ❤️ by the Temporal Precision Team**
+**Made with ❤️ by the Boava Team**

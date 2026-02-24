@@ -1,4 +1,4 @@
-package io.temporal.precision.converter;
+package org.boava.jpa.temporal.converter;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import io.temporal.precision.embeddable.EmbeddableTemporal;
+import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 
 @DisplayName("TemporalAttributeConverter Tests")
 class TemporalAttributeConverterTest {

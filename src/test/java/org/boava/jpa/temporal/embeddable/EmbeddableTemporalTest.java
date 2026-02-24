@@ -1,4 +1,4 @@
-package io.temporal.precision.embeddable;
+package org.boava.jpa.temporal.embeddable;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -14,9 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
-
-import io.temporal.precision.embeddable.EmbeddableTemporal;
 
 @DisplayName("EmbeddableTemporal Tests")
 class EmbeddableTemporalTest {
@@ -49,7 +46,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should normalize nanoseconds greater than one second")
         void shouldNormalizeNanosecondsGreaterThanOneSecond() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 1_500_000_000L);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(100L, 1_500_000_000);
             
             assertThat(temporal.getSeconds()).isEqualTo(101);
             assertThat(temporal.getNanos()).isEqualTo(500_000_000);
@@ -67,7 +64,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should normalize large negative nanoseconds")
         void shouldNormalizeLargeNegativeNanoseconds() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, -1_500_000_000L);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(100L, -1_500_000_000);
             
             assertThat(temporal.getSeconds()).isEqualTo(98);
             assertThat(temporal.getNanos()).isEqualTo(500_000_000);
@@ -376,7 +373,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should set seconds and normalize")
         void shouldSetSecondsAndNormalize() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 1_500_000_000L);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(100L, 1_500_000_000);
             
             assertThat(temporal.getSeconds()).isEqualTo(101);
             assertThat(temporal.getNanos()).isEqualTo(500_000_000);
@@ -419,7 +416,7 @@ class EmbeddableTemporalTest {
     class RoundTripConversionTests {
 
         @ParameterizedTest
-        @MethodSource("io.temporal.precision.embeddable.EmbeddableTemporalTest#provideInstants")
+        @MethodSource("org.boava.jpa.temporal.embeddable.EmbeddableTemporalTest#provideInstants")
         @DisplayName("Should maintain precision through round-trip conversions")
         void shouldMaintainPrecisionThroughRoundTrips(Instant instant) {
             // Instant -> EmbeddableTemporal -> Instant

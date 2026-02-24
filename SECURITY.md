@@ -12,7 +12,7 @@ If you discover a security vulnerability, please report it privately before disc
 
 ### How to Report
 
-**Email**: security@temporal-precision.io
+**Email**: security@boava.org
 
 Please include:
 - Type of vulnerability
@@ -80,4 +80,4 @@ Security updates are handled through:
 
 We thank security researchers who help us maintain secure software. All responsible disclosures are acknowledged in our security advisories.
 
-For questions about this security policy, email security@temporal-precision.io.
+For questions about this security policy, email security@boava.org.

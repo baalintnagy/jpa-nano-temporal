@@ -1,6 +1,6 @@
-# Contributing to Embeddable Temporal
+# Contributing to JPA Temporal
 
-We welcome contributions to the Embeddable Temporal library! This guide will help you get started.
+We welcome contributions to the JPA Temporal library! This guide will help you get started.
 
 ## 🚀 Getting Started
 
@@ -15,8 +15,8 @@ We welcome contributions to the Embeddable Temporal library! This guide will hel
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/YOUR_USERNAME/embeddable-temporal.git
-   cd embeddable-temporal
+   git clone https://github.com/YOUR_USERNAME/jpa-temporal.git
+   cd jpa-temporal
    ```
 
 2. **Install dependencies**
@@ -181,8 +181,8 @@ Releases are automated via GitHub Actions:
 ## 📞 Getting Help
 
 - Check [documentation](README.md)
-- Search [existing issues](https://github.com/temporal-precision/embeddable-temporal/issues)
-- Start a [discussion](https://github.com/temporal-precision/embeddable-temporal/discussions)
+- Search [existing issues](https://github.com/boava/jpa-temporal/issues)
+- Start a [discussion](https://github.com/boava/jpa-temporal/discussions)
 - Create an issue for bugs or feature requests
 
 Thank you for contributing! 🎉
