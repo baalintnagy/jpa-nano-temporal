@@ -21,14 +21,14 @@ import org.boava.jpa.temporal.converter.InstantTemporalConverter;
  * This entity uses converters for Instant and Duration fields.
  */
 @Entity
-@Table(name = "test_events")
-public class TestEvent {
+@Table(name = "test_entities")
+public class TestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "event_name", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
@@ -51,10 +51,10 @@ public class TestEvent {
     private Duration duration;
 
     // Default constructor required by JPA
-    public TestEvent() {
+    public TestEntity() {
     }
 
-    public TestEvent(String name, String description, Instant timestamp, Duration duration) {
+    public TestEntity(String name, String description, Instant timestamp, Duration duration) {
         this.name = name;
         this.description = description;
         this.timestamp = timestamp;
@@ -107,12 +107,12 @@ public class TestEvent {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestEvent testEvent = (TestEvent) o;
+        TestEntity testEntity = (TestEntity) o;
 
-        if (id != null ? !id.equals(testEvent.id) : testEvent.id != null) return false;
-        if (name != null ? !name.equals(testEvent.name) : testEvent.name != null) return false;
-        if (timestamp != null ? !timestamp.equals(testEvent.timestamp) : testEvent.timestamp != null) return false;
-        if (duration != null ? !duration.equals(testEvent.duration) : testEvent.duration != null) return false;
+        if (id != null ? !id.equals(testEntity.id) : testEntity.id != null) return false;
+        if (name != null ? !name.equals(testEntity.name) : testEntity.name != null) return false;
+        if (timestamp != null ? !timestamp.equals(testEntity.timestamp) : testEntity.timestamp != null) return false;
+        if (duration != null ? !duration.equals(testEntity.duration) : testEntity.duration != null) return false;
         return true;
     }
 
@@ -127,7 +127,7 @@ public class TestEvent {
 
     @Override
     public String toString() {
-        return "TestEvent{" +
+        return "TestEntity{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +

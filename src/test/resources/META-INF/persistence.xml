@@ -9,7 +9,7 @@
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
         <!-- Test entities -->
-        <class>org.boava.jpa.temporal.integration.TestEvent</class>
+        <class>org.boava.jpa.temporal.integration.TestEntity</class>
         
         <properties>
             <!-- H2 in-memory database configuration -->
