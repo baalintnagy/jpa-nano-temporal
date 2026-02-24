@@ -8,8 +8,6 @@ import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 import java.util.Objects;
 
-import jakarta.persistence.Access;
-import jakarta.persistence.AccessType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
@@ -33,29 +31,24 @@ import jakarta.persistence.Embeddable;
  * </ul>
  * <p>
  * Example usage in an entity:
- * <pre>{@code
- * @Entity
- * public class Event {
- *     @Embedded
- *     @AttributeOverride(name = "seconds", column = @Column(name = "event_timestamp_seconds"))
- *     @AttributeOverride(name = "nanos", column = @Column(name = "event_timestamp_nanos"))
- *     private EmbeddableTemporal timestamp;
- *     
- *     @Embedded
- *     @AttributeOverride(name = "seconds", column = @Column(name = "duration_seconds"))
- *     @AttributeOverride(name = "nanos", column = @Column(name = "duration_nanos"))
- *     private EmbeddableTemporal duration;
- * }
- * }</pre>
  * 
  * @author Boava Team
  * @since 1.0.0
  */
 @Embeddable
-@Access(AccessType.PROPERTY)
 public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    /**
+     * Number of nanoseconds in one second.
+     */
+    public static final int NANOS_PER_SECOND = 1_000_000_000;
+
+    /**
+     * Maximum nanoseconds value (one less than a full second).
+     */
+    public static final int MAX_NANOS = NANOS_PER_SECOND - 1;
 
     private long seconds;
     private int nanos;
@@ -156,22 +149,22 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
      * the range 0..999,999,999 and seconds is adjusted accordingly.
      */
     protected void normalize() {
-        if (nanos >= 0 && nanos < 1_000_000_000) {
+        if (nanos >= 0 && nanos < NANOS_PER_SECOND) {
             return;
         }
         
-        if (nanos >= 1_000_000_000) {
+        if (nanos >= NANOS_PER_SECOND) {
             // Positive overflow: add extra seconds
-            long carry = nanos / 1_000_000_000;
+            long carry = nanos / NANOS_PER_SECOND;
             this.seconds += carry;
-            this.nanos = nanos % 1_000_000_000;
+            this.nanos = nanos % NANOS_PER_SECOND;
         } else {
             // Negative nanoseconds: borrow from seconds
             // Handle negative nanos properly
             long absNanos = -(long) nanos; // Convert to positive for calculation
-            long carry = (absNanos + 999_999_999) / 1_000_000_000; // ceiling division
+            long carry = (absNanos + MAX_NANOS) / NANOS_PER_SECOND; // ceiling division
             this.seconds -= carry;
-            this.nanos += carry * 1_000_000_000;
+            this.nanos += carry * NANOS_PER_SECOND;
         }
     }
 
