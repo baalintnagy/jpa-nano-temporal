@@ -1,6 +1,7 @@
 package org.boava.jpa.temporal.integration;
 
 import org.boava.jpa.temporal.integration.TestEntity;
+import static org.boava.jpa.temporal.test.TestConstants.*;
 import static org.assertj.core.api.Assertions.*;
 
 import jakarta.persistence.EntityManager;

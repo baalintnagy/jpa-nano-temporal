@@ -11,7 +11,7 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
-import org.boava.jpa.temporal.test.TestConstants;
+import static org.boava.jpa.temporal.test.TestConstants.*;
 
 @DisplayName("TemporalAttributeConverter Tests")
 class TemporalAttributeConverterTest {
@@ -32,13 +32,13 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should convert Instant to EmbeddableTemporal")
         void shouldConvertInstantToEmbeddableTemporal() {
-            Instant instant = TestConstants.STANDARD_INSTANT;
+            Instant instant = STANDARD_INSTANT;
             
             EmbeddableTemporal result = instantConverter.convertToDatabaseColumn(instant);
             
             assertThat(result).isNotNull();
-            assertThat(result.getSeconds()).isEqualTo(TestConstants.STANDARD_SECONDS);
-            assertThat(result.getNanos()).isEqualTo(TestConstants.STANDARD_NANOS);
+            assertThat(result.getSeconds()).isEqualTo(STANDARD_SECONDS);
+            assertThat(result.getNanos()).isEqualTo(STANDARD_NANOS);
         }
 
         @Test
@@ -52,13 +52,13 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should convert EmbeddableTemporal to Instant")
         void shouldConvertEmbeddableTemporalToInstant() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(STANDARD_SECONDS, STANDARD_NANOS);
             
             Instant result = instantConverter.convertToEntityAttribute(temporal);
             
             assertThat(result).isNotNull();
-            assertThat(result.getEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
-            assertThat(result.getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
+            assertThat(result.getEpochSecond()).isEqualTo(STANDARD_SECONDS);
+            assertThat(result.getNano()).isEqualTo(STANDARD_NANOS);
         }
 
         @Test
@@ -72,7 +72,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should maintain precision through round-trip conversion")
         void shouldMaintainPrecisionThroughRoundTripConversion() {
-            Instant original = Instant.ofEpochSecond(TestConstants.STANDARD_SECONDS, 987654321);
+            Instant original = Instant.ofEpochSecond(STANDARD_SECONDS, 987654321);
             
             EmbeddableTemporal dbData = instantConverter.convertToDatabaseColumn(original);
             Instant roundTrip = instantConverter.convertToEntityAttribute(dbData);
@@ -88,13 +88,13 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should convert Duration to EmbeddableTemporal")
         void shouldConvertDurationToEmbeddableTemporal() {
-            Duration duration = TestConstants.ALT_DURATION;
+            Duration duration = ALT_DURATION;
             
             EmbeddableTemporal result = durationConverter.convertToDatabaseColumn(duration);
             
             assertThat(result).isNotNull();
-            assertThat(result.getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
-            assertThat(result.getNanos()).isEqualTo(TestConstants.ALT_NANOS);
+            assertThat(result.getSeconds()).isEqualTo(ALT_SECONDS);
+            assertThat(result.getNanos()).isEqualTo(ALT_NANOS);
         }
 
         @Test
@@ -108,13 +108,13 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should convert EmbeddableTemporal to Duration")
         void shouldConvertEmbeddableTemporalToDuration() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.ALT_SECONDS, TestConstants.ALT_NANOS);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(ALT_SECONDS, ALT_NANOS);
             
             Duration result = durationConverter.convertToEntityAttribute(temporal);
             
             assertThat(result).isNotNull();
-            assertThat(result.getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
-            assertThat(result.getNano()).isEqualTo(TestConstants.ALT_NANOS);
+            assertThat(result.getSeconds()).isEqualTo(ALT_SECONDS);
+            assertThat(result.getNano()).isEqualTo(ALT_NANOS);
         }
 
         @Test
@@ -128,7 +128,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should maintain precision through round-trip conversion")
         void shouldMaintainPrecisionThroughRoundTripConversion() {
-            Duration original = Duration.ofSeconds(TestConstants.ALT_SECONDS, TestConstants.STANDARD_NANOS);
+            Duration original = Duration.ofSeconds(ALT_SECONDS, STANDARD_NANOS);
             
             EmbeddableTemporal dbData = durationConverter.convertToDatabaseColumn(original);
             Duration roundTrip = durationConverter.convertToEntityAttribute(dbData);
@@ -168,7 +168,7 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should handle maximum precision values")
         void shouldHandleMaximumPrecisionValues() {
-            Instant maxPrecision = TestConstants.MAX_INSTANT;
+            Instant maxPrecision = MAX_INSTANT;
             
             EmbeddableTemporal dbData = instantConverter.convertToDatabaseColumn(maxPrecision);
             Instant roundTrip = instantConverter.convertToEntityAttribute(dbData);
@@ -179,8 +179,8 @@ class TemporalAttributeConverterTest {
         @Test
         @DisplayName("Should handle negative values")
         void shouldHandleNegativeValues() {
-            Instant negative = TestConstants.NEGATIVE_INSTANT;
-            Duration negativeDuration = TestConstants.NEGATIVE_DURATION;
+            Instant negative = NEGATIVE_INSTANT;
+            Duration negativeDuration = NEGATIVE_DURATION;
             
             // Test Instant
             EmbeddableTemporal instantDbData = instantConverter.convertToDatabaseColumn(negative);

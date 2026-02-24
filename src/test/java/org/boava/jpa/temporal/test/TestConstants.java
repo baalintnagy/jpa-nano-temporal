@@ -33,6 +33,11 @@ public final class TestConstants {
     // Zero and epoch values
     public static final long ZERO_SECONDS = 0L;
     public static final int ZERO_NANOS = 0;
+
+    public static final long ONE_SECONDS = 1L;
+    public static final int ONE_NANOS = 1;
+
+    public static final long HUNDRED_SECONDS = 100L;
     
     // Common nanosecond values
     public static final int HUNDRED_MILLION_NANOS = 100_000_000;
