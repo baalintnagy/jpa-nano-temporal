@@ -273,7 +273,7 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
      * @return true if this temporal value is zero
      */
     public boolean isZero() {
-        return seconds == 0 && nanos == 0;
+        return seconds == 0L && nanos == 0;
     }
 
     /**
@@ -282,7 +282,7 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
      * @return true if this temporal value is positive
      */
     public boolean isPositive() {
-        return seconds > 0 || (seconds == 0 && nanos > 0);
+        return seconds > 0L || (seconds == 0L && nanos > 0);
     }
 
     /**
@@ -291,7 +291,7 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
      * @return true if this temporal value is negative
      */
     public boolean isNegative() {
-        return seconds < 0 || (seconds == 0 && nanos < 0);
+        return seconds < 0L || (seconds == 0L && nanos < 0);
     }
 
     /**

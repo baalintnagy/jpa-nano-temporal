@@ -96,7 +96,7 @@ class TemporalConverterIntegrationTest {
                 "Precision Test", 
                 "Testing high precision", 
                 highPrecision, 
-                Duration.ofSeconds(12345, 678901234)
+                Duration.ofSeconds(12345L, 678901234L)
             );
 
             em.getTransaction().begin();
@@ -196,21 +196,21 @@ class TemporalConverterIntegrationTest {
             TestEntity entity1 = new TestEntity(
                 "Entity 1", 
                 "First entity", 
-                Instant.ofEpochSecond(1000000000L, 100000000), 
+                Instant.ofEpochSecond(1000000000L, 100000000L), 
                 Duration.ofHours(1)
             );
             
             TestEntity entity2 = new TestEntity(
                 "Entity 2", 
                 "Second entity", 
-                Instant.ofEpochSecond(2000000000L, 200000000), 
+                Instant.ofEpochSecond(2000000000L, 200000000L), 
                 Duration.ofHours(2)
             );
             
             TestEntity entity3 = new TestEntity(
                 "Entity 3", 
                 "Third entity", 
-                Instant.ofEpochSecond(3000000000L, 300000000), 
+                Instant.ofEpochSecond(3000000000L, 300000000L), 
                 Duration.ofHours(3)
             );
 
@@ -270,8 +270,8 @@ class TemporalConverterIntegrationTest {
         @DisplayName("Should handle maximum precision values within limits")
         void shouldHandleMaximumPrecisionValuesWithinLimits() {
             // Use values that are within Instant limits but still test high precision
-            Instant highPrecision = Instant.ofEpochSecond(1000000000L, 999999999);
-            Duration highPrecisionDuration = Duration.ofSeconds(1000000000L, 999999999);
+            Instant highPrecision = Instant.ofEpochSecond(1000000000L, 999999999L);
+            Duration highPrecisionDuration = Duration.ofSeconds(1000000000L, 999999999L);
             
             TestEntity event = new TestEntity(
                 "Max Precision Test", 

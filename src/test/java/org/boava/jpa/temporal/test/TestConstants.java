@@ -34,6 +34,15 @@ public final class TestConstants {
     public static final long ZERO_SECONDS = 0L;
     public static final int ZERO_NANOS = 0;
     
+    // Common nanosecond values
+    public static final int HUNDRED_MILLION_NANOS = 100_000_000;
+    public static final int FOUR_HUNDRED_MILLION_NANOS = 400_000_000;
+    public static final int FIVE_HUNDRED_MILLION_NANOS = 500_000_000;
+    public static final int SIX_HUNDRED_MILLION_NANOS = 600_000_000;
+    public static final int NINE_HUNDRED_MILLION_NANOS = 900_000_000;
+    public static final int ONE_BILLION_NANOS = 1_000_000_000;
+    public static final int ONE_AND_HALF_BILLION_NANOS = 1_500_000_000;
+    
     // Pre-created temporal objects
     public static final Instant STANDARD_INSTANT = Instant.ofEpochSecond(STANDARD_SECONDS, STANDARD_NANOS);
     public static final Instant ALT_INSTANT = Instant.ofEpochSecond(ALT_SECONDS, ALT_NANOS);
