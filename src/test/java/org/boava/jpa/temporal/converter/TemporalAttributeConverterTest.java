@@ -10,8 +10,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-import org.boava.jpa.temporal.converter.InstantConverter;
-import org.boava.jpa.temporal.converter.DurationConverter;
 import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 import org.boava.jpa.temporal.test.TestConstants;
 

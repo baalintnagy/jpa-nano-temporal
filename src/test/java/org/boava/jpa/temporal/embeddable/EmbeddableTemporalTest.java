@@ -12,12 +12,33 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.boava.jpa.temporal.test.TestConstants;
+import java.util.stream.Stream;
 
 @DisplayName("EmbeddableTemporal Tests")
 class EmbeddableTemporalTest {
+
+    /**
+     * Test case record for normalization tests.
+     */
+    record NormalizationTestCase(long inputSeconds, int inputNanos, long expectedSeconds, int expectedNanos) {}
+
+    /**
+     * Provides test data for nanosecond normalization tests.
+     */
+    static Stream<NormalizationTestCase> provideNormalizationTestData() {
+        return Stream.of(
+            new NormalizationTestCase(0, 0, 0, 0),
+            new NormalizationTestCase(100, 999_999_999, 100, 999_999_999),
+            new NormalizationTestCase(100, 1_000_000_000, 101, 0),
+            new NormalizationTestCase(100, 1_500_000_000, 101, 500_000_000),
+            new NormalizationTestCase(100, -1, 99, 999_999_999),
+            new NormalizationTestCase(100, -999_999_999, 99, 1),
+            new NormalizationTestCase(100, -1_000_000_000, 99, 0),
+            new NormalizationTestCase(100, -1_500_000_000, 98, 500_000_000)
+        );
+    }
 
     @Nested
     @DisplayName("Constructor Tests")
@@ -72,24 +93,15 @@ class EmbeddableTemporalTest {
         }
 
         @ParameterizedTest
-        @CsvSource({
-            "0, 0, 0, 0",
-            "100, 999_999_999, 100, 999_999_999",
-            "100, 1_000_000_000, 101, 0",
-            "100, 1_500_000_000, 101, 500_000_000",
-            "100, -1, 99, 999_999_999",
-            "100, -999_999_999, 99, 1",
-            "100, -1_000_000_000, 99, 0",
-            "100, -1_500_000_000, 98, 500_000_000"
-        })
+        @MethodSource("org.boava.jpa.temporal.embeddable.EmbeddableTemporalTest#provideNormalizationTestData")
         @DisplayName("Should normalize various nanosecond values")
-        void shouldNormalizeVariousNanosecondValues(long inputSeconds, long inputNanos, 
-                                                   long expectedSeconds, int expectedNanos) {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(inputSeconds, (int) inputNanos);
+        void shouldNormalizeVariousNanosecondValues(NormalizationTestCase testCase) {
+            EmbeddableTemporal temporal = new EmbeddableTemporal(testCase.inputSeconds(), testCase.inputNanos());
             
-            assertThat(temporal.getSeconds()).isEqualTo(expectedSeconds);
-            assertThat(temporal.getNanos()).isEqualTo(expectedNanos);
+            assertThat(temporal.getSeconds()).isEqualTo(testCase.expectedSeconds());
+            assertThat(temporal.getNanos()).isEqualTo(testCase.expectedNanos());
         }
+
     }
 
     @Nested
@@ -450,4 +462,5 @@ class EmbeddableTemporalTest {
             Instant.ofEpochSecond(-31557014167219200L, 0) // Instant.MIN
         };
     }
+
 }
