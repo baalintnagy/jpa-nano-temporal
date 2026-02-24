@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.boava.jpa.temporal.test.TestConstants;
 
 @DisplayName("EmbeddableTemporal Tests")
 class EmbeddableTemporalTest {
@@ -35,10 +36,10 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should create instance with positive values")
         void shouldCreateInstanceWithPositiveValues() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
-            assertThat(temporal.getSeconds()).isEqualTo(100);
-            assertThat(temporal.getNanos()).isEqualTo(500_000_000);
+            assertThat(temporal.getSeconds()).isEqualTo(TestConstants.SIMPLE_SECONDS);
+            assertThat(temporal.getNanos()).isEqualTo(TestConstants.SIMPLE_NANOS);
             assertThat(temporal.isPositive()).isTrue();
             assertThat(temporal.isNegative()).isFalse();
         }
@@ -98,21 +99,21 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should create from Instant")
         void shouldCreateFromInstant() {
-            Instant instant = Instant.ofEpochSecond(123456789, 123456789);
+            Instant instant = TestConstants.STANDARD_INSTANT;
             EmbeddableTemporal temporal = EmbeddableTemporal.from(instant);
             
-            assertThat(temporal.getSeconds()).isEqualTo(123456789);
-            assertThat(temporal.getNanos()).isEqualTo(123456789);
+            assertThat(temporal.getSeconds()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(temporal.getNanos()).isEqualTo(TestConstants.STANDARD_NANOS);
         }
 
         @Test
         @DisplayName("Should create from Duration")
         void shouldCreateFromDuration() {
-            Duration duration = Duration.ofSeconds(98765, 987654321);
+            Duration duration = TestConstants.ALT_DURATION;
             EmbeddableTemporal temporal = EmbeddableTemporal.from(duration);
             
-            assertThat(temporal.getSeconds()).isEqualTo(98765);
-            assertThat(temporal.getNanos()).isEqualTo(987654321);
+            assertThat(temporal.getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
+            assertThat(temporal.getNanos()).isEqualTo(TestConstants.ALT_NANOS);
         }
 
         @Test
@@ -139,62 +140,62 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should convert to Instant")
         void shouldConvertToInstant() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(123456789, 123456789);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS);
             Instant instant = temporal.toInstant();
             
-            assertThat(instant.getEpochSecond()).isEqualTo(123456789);
-            assertThat(instant.getNano()).isEqualTo(123456789);
+            assertThat(instant.getEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(instant.getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
         }
 
         @Test
         @DisplayName("Should convert to Duration")
         void shouldConvertToDuration() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(98765, 987654321);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.ALT_SECONDS, TestConstants.ALT_NANOS);
             Duration duration = temporal.toDuration();
             
-            assertThat(duration.getSeconds()).isEqualTo(98765);
-            assertThat(duration.getNano()).isEqualTo(987654321);
+            assertThat(duration.getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
+            assertThat(duration.getNano()).isEqualTo(TestConstants.ALT_NANOS);
         }
 
         @Test
         @DisplayName("Should convert to LocalDateTime")
         void shouldConvertToLocalDateTime() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(123456789, 123456789);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS);
             LocalDateTime localDateTime = temporal.toLocalDateTime();
             
-            assertThat(localDateTime.toEpochSecond(java.time.ZoneOffset.UTC)).isEqualTo(123456789);
-            assertThat(localDateTime.getNano()).isEqualTo(123456789);
+            assertThat(localDateTime.toEpochSecond(java.time.ZoneOffset.UTC)).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(localDateTime.getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
         }
 
         @Test
         @DisplayName("Should convert to ZonedDateTime")
         void shouldConvertToZonedDateTime() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(123456789, 123456789);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS);
             ZonedDateTime zonedDateTime = temporal.toZonedDateTime();
             
-            assertThat(zonedDateTime.toEpochSecond()).isEqualTo(123456789);
-            assertThat(zonedDateTime.getNano()).isEqualTo(123456789);
+            assertThat(zonedDateTime.toEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(zonedDateTime.getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
             assertThat(zonedDateTime.getZone()).isEqualTo(java.time.ZoneOffset.UTC);
         }
 
         @Test
         @DisplayName("Should convert to OffsetDateTime")
         void shouldConvertToOffsetDateTime() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(123456789, 123456789);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS);
             OffsetDateTime offsetDateTime = temporal.toOffsetDateTime();
             
-            assertThat(offsetDateTime.toEpochSecond()).isEqualTo(123456789);
-            assertThat(offsetDateTime.getNano()).isEqualTo(123456789);
+            assertThat(offsetDateTime.toEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(offsetDateTime.getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
             assertThat(offsetDateTime.getOffset()).isEqualTo(java.time.ZoneOffset.UTC);
         }
 
         @Test
         @DisplayName("Should convert using custom converter")
         void shouldConvertUsingCustomConverter() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             String result = temporal.convert((seconds, nanos) -> 
-                String.format("%d seconds and %d nanoseconds", seconds, nanos));
+                String.format("%d seconds and %d nanoseconds", TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS));
             
             assertThat(result).isEqualTo("100 seconds and 500000000 nanoseconds");
         }
@@ -202,7 +203,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should throw exception when using null converter")
         void shouldThrowExceptionWhenUsingNullConverter() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThatThrownBy(() -> temporal.convert(null))
                 .isInstanceOf(NullPointerException.class)
@@ -217,8 +218,8 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should compare equal instances")
         void shouldCompareEqualInstances() {
-            EmbeddableTemporal temporal1 = new EmbeddableTemporal(100, 500_000_000);
-            EmbeddableTemporal temporal2 = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal1 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
+            EmbeddableTemporal temporal2 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThat(temporal1.compareTo(temporal2)).isZero();
             assertThat(temporal1).isEqualTo(temporal2);
@@ -228,8 +229,8 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should compare instances with different seconds")
         void shouldCompareInstancesWithDifferentSeconds() {
-            EmbeddableTemporal temporal1 = new EmbeddableTemporal(100, 500_000_000);
-            EmbeddableTemporal temporal2 = new EmbeddableTemporal(101, 500_000_000);
+            EmbeddableTemporal temporal1 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
+            EmbeddableTemporal temporal2 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS + 1, TestConstants.SIMPLE_NANOS);
             
             assertThat(temporal1.compareTo(temporal2)).isNegative();
             assertThat(temporal2.compareTo(temporal1)).isPositive();
@@ -238,8 +239,8 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should compare instances with different nanoseconds")
         void shouldCompareInstancesWithDifferentNanoseconds() {
-            EmbeddableTemporal temporal1 = new EmbeddableTemporal(100, 400_000_000);
-            EmbeddableTemporal temporal2 = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal1 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, 400_000_000);
+            EmbeddableTemporal temporal2 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThat(temporal1.compareTo(temporal2)).isNegative();
             assertThat(temporal2.compareTo(temporal1)).isPositive();
@@ -248,7 +249,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should not equal null")
         void shouldNotEqualNull() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThat(temporal).isNotEqualTo(null);
         }
@@ -256,7 +257,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should not equal different class")
         void shouldNotEqualDifferentClass() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThat(temporal).isNotEqualTo("not a temporal");
         }
@@ -269,7 +270,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should correctly identify zero values")
         void shouldCorrectlyIdentifyZeroValues() {
-            EmbeddableTemporal zero = new EmbeddableTemporal(0, 0);
+            EmbeddableTemporal zero = new EmbeddableTemporal(TestConstants.ZERO_SECONDS, TestConstants.ZERO_NANOS);
             EmbeddableTemporal positive = new EmbeddableTemporal(1, 0);
             EmbeddableTemporal negative = new EmbeddableTemporal(-1, 0);
             
@@ -281,7 +282,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should correctly identify positive values")
         void shouldCorrectlyIdentifyPositiveValues() {
-            EmbeddableTemporal zero = new EmbeddableTemporal(0, 0);
+            EmbeddableTemporal zero = new EmbeddableTemporal(TestConstants.ZERO_SECONDS, TestConstants.ZERO_NANOS);
             EmbeddableTemporal positiveSeconds = new EmbeddableTemporal(1, 0);
             EmbeddableTemporal positiveNanos = new EmbeddableTemporal(0, 1);
             EmbeddableTemporal negative = new EmbeddableTemporal(-1, 0);
@@ -295,7 +296,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should correctly identify negative values")
         void shouldCorrectlyIdentifyNegativeValues() {
-            EmbeddableTemporal zero = new EmbeddableTemporal(0, 0);
+            EmbeddableTemporal zero = new EmbeddableTemporal(TestConstants.ZERO_SECONDS, TestConstants.ZERO_NANOS);
             EmbeddableTemporal positive = new EmbeddableTemporal(1, 0);
             EmbeddableTemporal negativeSeconds = new EmbeddableTemporal(-1, 0);
             EmbeddableTemporal negativeNanos = new EmbeddableTemporal(0, -1);
@@ -309,7 +310,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should add temporal values")
         void shouldAddTemporalValues() {
-            EmbeddableTemporal temporal1 = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal1 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             EmbeddableTemporal temporal2 = new EmbeddableTemporal(50, 600_000_000);
             
             EmbeddableTemporal result = temporal1.add(temporal2);
@@ -321,7 +322,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should subtract temporal values")
         void shouldSubtractTemporalValues() {
-            EmbeddableTemporal temporal1 = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal1 = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             EmbeddableTemporal temporal2 = new EmbeddableTemporal(50, 600_000_000);
             
             EmbeddableTemporal result = temporal1.subtract(temporal2);
@@ -333,22 +334,22 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should calculate absolute value")
         void shouldCalculateAbsoluteValue() {
-            EmbeddableTemporal positive = new EmbeddableTemporal(100, 500_000_000);
-            EmbeddableTemporal negative = new EmbeddableTemporal(-100, -500_000_000);
+            EmbeddableTemporal positive = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
+            EmbeddableTemporal negative = new EmbeddableTemporal(-TestConstants.SIMPLE_SECONDS, -TestConstants.SIMPLE_NANOS);
             
             EmbeddableTemporal positiveAbs = positive.abs();
             EmbeddableTemporal negativeAbs = negative.abs();
             
-            assertThat(positiveAbs.getSeconds()).isEqualTo(100);
-            assertThat(positiveAbs.getNanos()).isEqualTo(500_000_000);
-            assertThat(negativeAbs.getSeconds()).isEqualTo(100);
-            assertThat(negativeAbs.getNanos()).isEqualTo(500_000_000);
+            assertThat(positiveAbs.getSeconds()).isEqualTo(TestConstants.SIMPLE_SECONDS);
+            assertThat(positiveAbs.getNanos()).isEqualTo(TestConstants.SIMPLE_NANOS);
+            assertThat(negativeAbs.getSeconds()).isEqualTo(TestConstants.SIMPLE_SECONDS);
+            assertThat(negativeAbs.getNanos()).isEqualTo(TestConstants.SIMPLE_NANOS);
         }
 
         @Test
         @DisplayName("Should throw exception when adding null")
         void shouldThrowExceptionWhenAddingNull() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThatThrownBy(() -> temporal.add(null))
                 .isInstanceOf(NullPointerException.class)
@@ -358,7 +359,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should throw exception when subtracting null")
         void shouldThrowExceptionWhenSubtractingNull() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             assertThatThrownBy(() -> temporal.subtract(null))
                 .isInstanceOf(NullPointerException.class)
@@ -373,7 +374,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should set seconds and normalize")
         void shouldSetSecondsAndNormalize() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100L, 1_500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, 1_500_000_000);
             
             assertThat(temporal.getSeconds()).isEqualTo(101);
             assertThat(temporal.getNanos()).isEqualTo(500_000_000);
@@ -387,7 +388,7 @@ class EmbeddableTemporalTest {
         @Test
         @DisplayName("Should set nanoseconds and normalize")
         void shouldSetNanosecondsAndNormalize() {
-            EmbeddableTemporal temporal = new EmbeddableTemporal(100, 500_000_000);
+            EmbeddableTemporal temporal = new EmbeddableTemporal(TestConstants.SIMPLE_SECONDS, TestConstants.SIMPLE_NANOS);
             
             temporal.setNanos(1_500_000_000);
             
@@ -443,9 +444,9 @@ class EmbeddableTemporalTest {
             Instant.ofEpochSecond(0, 1),
             Instant.ofEpochSecond(0, 999_999_999),
             Instant.ofEpochSecond(1, 0),
-            Instant.ofEpochSecond(123456789, 123456789),
-            Instant.ofEpochSecond(-123456789, -123456789),
-            Instant.ofEpochSecond(31556889864403199L, 999_999_999), // Instant.MAX
+            Instant.ofEpochSecond(TestConstants.STANDARD_SECONDS, TestConstants.STANDARD_NANOS),
+            TestConstants.NEGATIVE_INSTANT,
+            TestConstants.MAX_INSTANT,
             Instant.ofEpochSecond(-31557014167219200L, 0) // Instant.MIN
         };
     }

@@ -1,6 +1,5 @@
 package org.boava.jpa.temporal.integration;
 
-import org.boava.jpa.temporal.integration.TestEntity;
 import static org.assertj.core.api.Assertions.*;
 
 import jakarta.persistence.EntityManager;
@@ -16,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.boava.jpa.temporal.test.TestConstants;
 
 @DisplayName("Temporal Converter Integration Tests")
 class TemporalConverterIntegrationTest {
@@ -46,7 +46,7 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should persist and retrieve Instant with full precision")
         void shouldPersistAndRetrieveInstantWithFullPrecision() {
-            Instant originalTimestamp = Instant.ofEpochSecond(123456789, 123456789);
+            Instant originalTimestamp = TestConstants.STANDARD_INSTANT;
             
             TestEntity event = new TestEntity(
                 "Test Event", 
@@ -66,8 +66,8 @@ class TemporalConverterIntegrationTest {
 
             assertThat(retrieved).isNotNull();
             assertThat(retrieved.getTimestamp()).isEqualTo(originalTimestamp);
-            assertThat(retrieved.getTimestamp().getEpochSecond()).isEqualTo(123456789);
-            assertThat(retrieved.getTimestamp().getNano()).isEqualTo(123456789);
+            assertThat(retrieved.getTimestamp().getEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(retrieved.getTimestamp().getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
         }
 
         @Test
@@ -89,7 +89,7 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should maintain precision across multiple operations")
         void shouldMaintainPrecisionAcrossMultipleOperations() {
-            Instant highPrecision = Instant.ofEpochSecond(987654321, 987654321);
+            Instant highPrecision = Instant.ofEpochSecond(TestConstants.ALT_SECONDS, TestConstants.ALT_NANOS);
             
             TestEntity event = new TestEntity(
                 "Precision Test", 
@@ -123,7 +123,7 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should persist and retrieve Duration with full precision")
         void shouldPersistAndRetrieveDurationWithFullPrecision() {
-            Duration originalDuration = Duration.ofSeconds(98765, 987654321);
+            Duration originalDuration = TestConstants.ALT_DURATION;
             
             TestEntity event = new TestEntity(
                 "Duration Test", 
@@ -141,8 +141,8 @@ class TemporalConverterIntegrationTest {
 
             assertThat(retrieved).isNotNull();
             assertThat(retrieved.getDuration()).isEqualTo(originalDuration);
-            assertThat(retrieved.getDuration().getSeconds()).isEqualTo(98765);
-            assertThat(retrieved.getDuration().getNano()).isEqualTo(987654321);
+            assertThat(retrieved.getDuration().getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
+            assertThat(retrieved.getDuration().getNano()).isEqualTo(TestConstants.ALT_NANOS);
         }
 
         @Test
@@ -164,7 +164,7 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should handle negative durations")
         void shouldHandleNegativeDurations() {
-            Duration negativeDuration = Duration.ofSeconds(-12345, -678901234);
+            Duration negativeDuration = TestConstants.NEGATIVE_DURATION;
             
             TestEntity event = new TestEntity(
                 "Negative Duration Test", 
@@ -192,50 +192,50 @@ class TemporalConverterIntegrationTest {
         @Test
         @DisplayName("Should handle multiple entities with different temporal values")
         void shouldHandleMultipleEntitiesWithDifferentTemporalValues() {
-            TestEntity event1 = new TestEntity(
-                "Event 1", 
-                "First event", 
+            TestEntity entity1 = new TestEntity(
+                "Entity 1", 
+                "First entity", 
                 Instant.ofEpochSecond(1000000000L, 100000000), 
                 Duration.ofHours(1)
             );
             
-            TestEntity event2 = new TestEntity(
-                "Event 2", 
-                "Second event", 
+            TestEntity entity2 = new TestEntity(
+                "Entity 2", 
+                "Second entity", 
                 Instant.ofEpochSecond(2000000000L, 200000000), 
                 Duration.ofHours(2)
             );
             
-            TestEntity event3 = new TestEntity(
-                "Event 3", 
-                "Third event", 
+            TestEntity entity3 = new TestEntity(
+                "Entity 3", 
+                "Third entity", 
                 Instant.ofEpochSecond(3000000000L, 300000000), 
                 Duration.ofHours(3)
             );
 
             em.getTransaction().begin();
-            em.persist(event1);
-            em.persist(event2);
-            em.persist(event3);
+            em.persist(entity1);
+            em.persist(entity2);
+            em.persist(entity3);
             em.getTransaction().commit();
             em.clear();
 
-            // Query all events
-            List<TestEntity> events = em.createQuery("SELECT e FROM TestEntity e ORDER BY e.name", TestEntity.class)
+            // Query all entities
+            List<TestEntity> entities = em.createQuery("SELECT e FROM TestEntity e ORDER BY e.name", TestEntity.class)
                     .getResultList();
 
-            assertThat(events).hasSize(3);
-            assertThat(events.get(0).getName()).isEqualTo("Event 1");
-            assertThat(events.get(0).getTimestamp().getNano()).isEqualTo(100000000);
-            assertThat(events.get(0).getDuration().toHours()).isEqualTo(1);
+            assertThat(entities).hasSize(3);
+            assertThat(entities.get(0).getName()).isEqualTo("Entity 1");
+            assertThat(entities.get(0).getTimestamp().getNano()).isEqualTo(100000000);
+            assertThat(entities.get(0).getDuration().toHours()).isEqualTo(1);
             
-            assertThat(events.get(1).getName()).isEqualTo("Event 2");
-            assertThat(events.get(1).getTimestamp().getNano()).isEqualTo(200000000);
-            assertThat(events.get(1).getDuration().toHours()).isEqualTo(2);
+            assertThat(entities.get(1).getName()).isEqualTo("Entity 2");
+            assertThat(entities.get(1).getTimestamp().getNano()).isEqualTo(200000000);
+            assertThat(entities.get(1).getDuration().toHours()).isEqualTo(2);
             
-            assertThat(events.get(2).getName()).isEqualTo("Event 3");
-            assertThat(events.get(2).getTimestamp().getNano()).isEqualTo(300000000);
-            assertThat(events.get(2).getDuration().toHours()).isEqualTo(3);
+            assertThat(entities.get(2).getName()).isEqualTo("Entity 3");
+            assertThat(entities.get(2).getTimestamp().getNano()).isEqualTo(300000000);
+            assertThat(entities.get(2).getDuration().toHours()).isEqualTo(3);
         }
     }
 
