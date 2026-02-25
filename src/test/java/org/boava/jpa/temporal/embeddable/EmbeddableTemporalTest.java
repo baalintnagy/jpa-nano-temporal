@@ -210,7 +210,7 @@ class EmbeddableTemporalTest {
             EmbeddableTemporal temporal = new EmbeddableTemporal(HUNDRED_SECONDS, FIVE_HUNDRED_MILLION_NANOS);
             
             String result = temporal.convert((seconds, nanos) -> 
-                String.format("%d seconds and %d nanoseconds", HUNDRED_SECONDS, FIVE_HUNDRED_MILLION_NANOS));
+                "%d seconds and %d nanoseconds".formatted(HUNDRED_SECONDS, FIVE_HUNDRED_MILLION_NANOS));
             
             assertThat(result).isEqualTo("100 seconds and 500000000 nanoseconds");
         }

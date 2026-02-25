@@ -127,12 +127,6 @@ public class TestEntity {
 
     @Override
     public String toString() {
-        return "TestEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", timestamp=" + timestamp +
-                ", duration=" + duration +
-                '}';
+        return "TestEntity{id=%s, name='%s', description='%s', timestamp=%s, duration=%s}".formatted(id, name, description, timestamp, duration);
     }
 }

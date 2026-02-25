@@ -189,7 +189,7 @@ public class EmbeddableTemporal implements Comparable<EmbeddableTemporal>, Seria
 
     @Override
     public String toString() {
-        return String.format("EmbeddableTemporal{seconds=%d, nanos=%d}", seconds, nanos);
+        return "EmbeddableTemporal{seconds=%d, nanos=%d}".formatted(seconds, nanos);
     }
 
     // Factory methods for common temporal types
