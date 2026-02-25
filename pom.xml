@@ -43,21 +43,21 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
         <!-- Dependencies -->
-        <junit.version>5.10.2</junit.version>
-        <assertj.version>3.25.3</assertj.version>
-        <mockito.version>5.11.0</mockito.version>
-        <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+        <junit.version>5.11.0</junit.version>
+        <assertj.version>3.26.0</assertj.version>
+        <mockito.version>5.14.0</mockito.version>
+        <jakarta.persistence.version>3.2.0</jakarta.persistence.version>
         
         <!-- Plugins -->
-        <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
-        <maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
-        <maven.failsafe.plugin.version>3.2.5</maven.failsafe.plugin.version>
-        <jacoco.plugin.version>0.8.11</jacoco.plugin.version>
-        <nexus.staging.plugin.version>1.6.13</nexus.staging.plugin.version>
-        <maven.gpg.plugin.version>3.1.0</maven.gpg.plugin.version>
-        <maven.source.plugin.version>3.3.0</maven.source.plugin.version>
-        <maven.javadoc.plugin.version>3.6.3</maven.javadoc.plugin.version>
-        <maven.release.plugin.version>3.0.1</maven.release.plugin.version>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
+        <maven.surefire.plugin.version>3.5.0</maven.surefire.plugin.version>
+        <maven.failsafe.plugin.version>3.5.0</maven.failsafe.plugin.version>
+        <jacoco.plugin.version>0.8.12</jacoco.plugin.version>
+        <nexus.staging.plugin.version>1.7.0</nexus.staging.plugin.version>
+        <maven.gpg.plugin.version>3.2.4</maven.gpg.plugin.version>
+        <maven.source.plugin.version>3.3.1</maven.source.plugin.version>
+        <maven.javadoc.plugin.version>3.8.0</maven.javadoc.plugin.version>
+        <maven.release.plugin.version>3.1.1</maven.release.plugin.version>
     </properties>
 
     <dependencies>
@@ -91,13 +91,13 @@
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
-            <version>6.4.4.Final</version>
+            <version>6.6.1.Final</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.2.224</version>
+            <version>2.3.232</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -137,6 +137,15 @@
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${jacoco.plugin.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>java/sql/**</exclude>
+                        <exclude>javax/sql/**</exclude>
+                        <exclude>jdk/internal/**</exclude>
+                        <exclude>com/sun/**</exclude>
+                        <exclude>sun/**</exclude>
+                    </excludes>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>
