@@ -21,20 +21,15 @@ jobs:
           distribution: temurin
           java-version: "17"
           cache: maven
-
-          # Central Portal (NOT ossrh)
           server-id: central
-          server-username: ${{ secrets.CENTRAL_USERNAME }}
-          server-password: ${{ secrets.CENTRAL_PASSWORD }}
-
-          # Import signing key for maven-gpg-plugin
+          server-username: CENTRAL_USERNAME      # env var name, not the secret
+          server-password: CENTRAL_PASSWORD      # env var name, not the secret
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
-
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE   # env var name, not the secret
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
           CENTRAL_PASSWORD: ${{ secrets.CENTRAL_PASSWORD }}
-          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Compute release version from tag
         shell: bash
@@ -57,8 +52,7 @@ jobs:
             -DskipTests \
             -Dgpg.passphrase="${GPG_PASSPHRASE}" \
             -Dgpg.keyname="B1E2D085F8DEFDEAEA398AAD243A026BA94114D3" \
-            -DgpgArguments="--pinentry-mode" \
-            -DgpgArguments="loopback"
+            -Dgpg.args="--pinentry-mode loopback"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
