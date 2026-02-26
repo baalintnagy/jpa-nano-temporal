@@ -24,12 +24,12 @@ jobs:
 
           # Central Portal (NOT ossrh)
           server-id: central
-          server-username: CENTRAL_USERNAME
-          server-password: CENTRAL_PASSWORD
+          server-username: ${{ secrets.CENTRAL_USERNAME }}
+          server-password: ${{ secrets.CENTRAL_PASSWORD }}
 
           # Import signing key for maven-gpg-plugin
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: GPG_PASSPHRASE
+          gpg-passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
         env:
           CENTRAL_USERNAME: ${{ secrets.CENTRAL_USERNAME }}
