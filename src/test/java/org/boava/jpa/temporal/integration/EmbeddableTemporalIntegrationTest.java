@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.boava.jpa.temporal.test.TestConstants;
 
-@DisplayName("Temporal Converter Integration Tests")
-class TemporalConverterIntegrationTest {
+@DisplayName("EmbeddableTemporal Integration Tests")
+class EmbeddableTemporalIntegrationTest {
 
     private EntityManagerFactory emf;
     private EntityManager em;
@@ -43,8 +43,8 @@ class TemporalConverterIntegrationTest {
     }
 
     @Nested
-    @DisplayName("Instant Converter Integration Tests")
-    class InstantConverterTests {
+    @DisplayName("Instant Integration Tests")
+    class InstantIntegrationTests {
 
         @Test
         @DisplayName("Should persist and retrieve Instant with full precision")
@@ -68,9 +68,9 @@ class TemporalConverterIntegrationTest {
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
             assertThat(retrieved).isNotNull();
-            assertThat(retrieved.getTimestamp()).isEqualTo(originalTimestamp);
-            assertThat(retrieved.getTimestamp().getEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
-            assertThat(retrieved.getTimestamp().getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
+            assertThat(retrieved.getTimestamp().toInstant()).isEqualTo(originalTimestamp);
+            assertThat(retrieved.getTimestamp().toInstant().getEpochSecond()).isEqualTo(TestConstants.STANDARD_SECONDS);
+            assertThat(retrieved.getTimestamp().toInstant().getNano()).isEqualTo(TestConstants.STANDARD_NANOS);
         }
 
         @Test
@@ -114,14 +114,15 @@ class TemporalConverterIntegrationTest {
 
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
-            assertThat(retrieved.getTimestamp()).isEqualTo(highPrecision);
+            assertThat(retrieved).isNotNull();
+            assertThat(retrieved.getTimestamp().toInstant()).isEqualTo(highPrecision);
             assertThat(retrieved.getName()).isEqualTo("Updated Precision Test");
         }
     }
 
     @Nested
-    @DisplayName("Duration Converter Integration Tests")
-    class DurationConverterTests {
+    @DisplayName("Duration Integration Tests")
+    class DurationIntegrationTests {
 
         @Test
         @DisplayName("Should persist and retrieve Duration with full precision")
@@ -143,9 +144,9 @@ class TemporalConverterIntegrationTest {
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
             assertThat(retrieved).isNotNull();
-            assertThat(retrieved.getDuration()).isEqualTo(originalDuration);
-            assertThat(retrieved.getDuration().getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
-            assertThat(retrieved.getDuration().getNano()).isEqualTo(TestConstants.ALT_NANOS);
+            assertThat(retrieved.getDuration().toDuration()).isEqualTo(originalDuration);
+            assertThat(retrieved.getDuration().toDuration().getSeconds()).isEqualTo(TestConstants.ALT_SECONDS);
+            assertThat(retrieved.getDuration().toDuration().getNano()).isEqualTo(TestConstants.ALT_NANOS);
         }
 
         @Test
@@ -184,7 +185,7 @@ class TemporalConverterIntegrationTest {
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
             assertThat(retrieved).isNotNull();
-            assertThat(retrieved.getDuration()).isEqualTo(negativeDuration);
+            assertThat(retrieved.getDuration().toDuration()).isEqualTo(negativeDuration);
         }
     }
 
@@ -229,16 +230,16 @@ class TemporalConverterIntegrationTest {
 
             assertThat(entities).hasSize(3);
             assertThat(entities.get(0).getName()).isEqualTo("Entity 1");
-            assertThat(entities.get(0).getTimestamp().getNano()).isEqualTo(HUNDRED_MILLION_NANOS);
-            assertThat(entities.get(0).getDuration().toHours()).isEqualTo(1);
+            assertThat(entities.get(0).getTimestamp().toInstant().getNano()).isEqualTo(HUNDRED_MILLION_NANOS);
+            assertThat(entities.get(0).getDuration().toDuration().toHours()).isEqualTo(1);
             
             assertThat(entities.get(1).getName()).isEqualTo("Entity 2");
-            assertThat(entities.get(1).getTimestamp().getNano()).isEqualTo(2 * HUNDRED_MILLION_NANOS);
-            assertThat(entities.get(1).getDuration().toHours()).isEqualTo(2);
+            assertThat(entities.get(1).getTimestamp().toInstant().getNano()).isEqualTo(2 * HUNDRED_MILLION_NANOS);
+            assertThat(entities.get(1).getDuration().toDuration().toHours()).isEqualTo(2);
             
             assertThat(entities.get(2).getName()).isEqualTo("Entity 3");
-            assertThat(entities.get(2).getTimestamp().getNano()).isEqualTo(3 * HUNDRED_MILLION_NANOS);
-            assertThat(entities.get(2).getDuration().toHours()).isEqualTo(3);
+            assertThat(entities.get(2).getTimestamp().toInstant().getNano()).isEqualTo(3 * HUNDRED_MILLION_NANOS);
+            assertThat(entities.get(2).getDuration().toDuration().toHours()).isEqualTo(3);
         }
     }
 
@@ -264,8 +265,8 @@ class TemporalConverterIntegrationTest {
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
             assertThat(retrieved).isNotNull();
-            assertThat(retrieved.getTimestamp()).isEqualTo(Instant.EPOCH);
-            assertThat(retrieved.getDuration()).isEqualTo(Duration.ZERO);
+            assertThat(retrieved.getTimestamp().toInstant()).isEqualTo(Instant.EPOCH);
+            assertThat(retrieved.getDuration().toDuration()).isEqualTo(Duration.ZERO);
         }
 
         @Test
@@ -290,8 +291,8 @@ class TemporalConverterIntegrationTest {
             TestEntity retrieved = em.find(TestEntity.class, event.getId());
 
             assertThat(retrieved).isNotNull();
-            assertThat(retrieved.getTimestamp()).isEqualTo(highPrecision);
-            assertThat(retrieved.getDuration()).isEqualTo(highPrecisionDuration);
+            assertThat(retrieved.getTimestamp().toInstant()).isEqualTo(highPrecision);
+            assertThat(retrieved.getDuration().toDuration()).isEqualTo(highPrecisionDuration);
         }
     }
 }

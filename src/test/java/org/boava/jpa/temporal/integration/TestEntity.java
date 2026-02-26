@@ -3,7 +3,7 @@ package org.boava.jpa.temporal.integration;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.AttributeOverrides;
 import jakarta.persistence.Column;
-import jakarta.persistence.Convert;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,12 +13,11 @@ import jakarta.persistence.Table;
 import java.time.Duration;
 import java.time.Instant;
 
-import org.boava.jpa.temporal.converter.DurationConverter;
-import org.boava.jpa.temporal.converter.InstantConverter;
+import org.boava.jpa.temporal.embeddable.EmbeddableTemporal;
 
 /**
- * Test entity for integration testing of EmbeddableTemporal and converters.
- * This entity uses converters for Instant and Duration fields.
+ * Test entity for integration testing of EmbeddableTemporal.
+ * This entity uses EmbeddableTemporal directly for full JPQL support.
  */
 @Entity
 @Table(name = "test_entities")
@@ -34,21 +33,20 @@ public class TestEntity {
     @Column(name = "description")
     private String description;
 
-    // Using converter for Instant - this will map to two columns: seconds and nanos
-    @Convert(converter = InstantConverter.class)
+    // Using EmbeddableTemporal directly for full JPQL support
+    @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "seconds", column = @Column(name = "timestamp_seconds")),
         @AttributeOverride(name = "nanos", column = @Column(name = "timestamp_nanos"))
     })
-    private Instant timestamp;
+    private EmbeddableTemporal timestamp;
 
-    // Using converter for Duration - this will map to two columns: seconds and nanos
-    @Convert(converter = DurationConverter.class)
+    @Embedded
     @AttributeOverrides({
         @AttributeOverride(name = "seconds", column = @Column(name = "duration_seconds")),
         @AttributeOverride(name = "nanos", column = @Column(name = "duration_nanos"))
     })
-    private Duration duration;
+    private EmbeddableTemporal duration;
 
     // Default constructor required by JPA
     public TestEntity() {
@@ -57,8 +55,8 @@ public class TestEntity {
     public TestEntity(String name, String description, Instant timestamp, Duration duration) {
         this.name = name;
         this.description = description;
-        this.timestamp = timestamp;
-        this.duration = duration;
+        this.timestamp = timestamp != null ? EmbeddableTemporal.from(timestamp) : null;
+        this.duration = duration != null ? EmbeddableTemporal.from(duration) : null;
     }
 
     // Getters and setters
@@ -86,47 +84,25 @@ public class TestEntity {
         this.description = description;
     }
 
-    public Instant getTimestamp() {
+    public EmbeddableTemporal getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Instant timestamp) {
+    public void setTimestamp(EmbeddableTemporal timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Duration getDuration() {
+    public EmbeddableTemporal getDuration() {
         return duration;
     }
 
-    public void setDuration(Duration duration) {
+    public void setDuration(EmbeddableTemporal duration) {
         this.duration = duration;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TestEntity testEntity = (TestEntity) o;
-
-        if (id != null ? !id.equals(testEntity.id) : testEntity.id != null) return false;
-        if (name != null ? !name.equals(testEntity.name) : testEntity.name != null) return false;
-        if (timestamp != null ? !timestamp.equals(testEntity.timestamp) : testEntity.timestamp != null) return false;
-        if (duration != null ? !duration.equals(testEntity.duration) : testEntity.duration != null) return false;
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (timestamp != null ? timestamp.hashCode() : 0);
-        result = 31 * result + (duration != null ? duration.hashCode() : 0);
-        return result;
-    }
-
-    @Override
     public String toString() {
-        return "TestEntity{id=%s, name='%s', description='%s', timestamp=%s, duration=%s}".formatted(id, name, description, timestamp, duration);
+        return "TestEntity{id=%s, name='%s', description='%s', timestamp=%s, duration=%s}"
+            .formatted(id, name, description, timestamp, duration);
     }
 }

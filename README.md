@@ -24,7 +24,7 @@ This library solves these problems by:
 - ✅ **Type safety** with proper conversions
 - ✅ **Database-agnostic** storage using primitive types
 
-## 📦 Future Installation (In the future, not yet in maven-central!!!)
+## 📦 Installation
 
 Add the dependency to your `pom.xml`:
 
@@ -32,17 +32,17 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.baalintnagy</groupId>
     <artifactId>jpa.nano-temporal</artifactId>
-    <version>0.9.0</version>
+    <version>0.9.2</version>
 </dependency>
 ```
 
 Or to your `build.gradle`:
 
 ```groovy
-implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.0'
+implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.2'
 ```
 
-## 🔧 Quick Start
+## Quick Start
 
 ### Basic Usage in JPA Entities
 
@@ -72,15 +72,15 @@ public class Event {
 }
 ```
 
-**Note:** When using converters, you still need to define two database columns:
+**Note:** The library mandates storing temporal values as two database columns:
 ```sql
 CREATE TABLE event (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
-    timestamp_seconds BIGINT NOT NULL,
-    timestamp_nanos INT NOT NULL,
-    processing_time_seconds BIGINT NOT NULL,
-    processing_time_nanos INT NOT NULL
+    event_timestamp_seconds BIGINT NOT NULL,
+    event_timestamp_nanos INT NOT NULL,
+    duration_seconds BIGINT NOT NULL,
+    duration_nanos INT NOT NULL
 );
 ```
 
@@ -106,6 +106,29 @@ Duration roundTripDuration = duration.toDuration();
 String formatted = timestamp.convert((seconds, nanos) -> 
     String.format("%d.%09d seconds", seconds, nanos));
 ```
+
+### JPQL Query Support
+
+```java
+// ✅ All these JPQL queries work perfectly
+@Query("SELECT e FROM Event e WHERE e.timestamp.seconds > :seconds")
+List<Event> findByTimestampSecondsGreaterThan(@Param("seconds") long seconds);
+
+@Query("SELECT e FROM Event e WHERE e.timestamp.seconds = :seconds AND e.timestamp.nanos > :nanos")
+List<Event> findByTimestampExact(@Param("seconds") long seconds, @Param("nanos") int nanos);
+
+@Query("SELECT e FROM Event e ORDER BY e.timestamp.seconds DESC, e.timestamp.nanos DESC")
+List<Event> findAllOrderByTimestampDesc();
+
+@Query("SELECT e FROM Event e WHERE e.duration.seconds > 0")
+List<Event> findByPositiveDuration();
+
+// ✅ Method query generation also works
+List<Event> findByTimestampSeconds(long seconds);
+List<Event> findByDurationSecondsGreaterThan(long seconds);
+```
+
+**Note**: JPQL queries work with the explicit ("qualified") `seconds` and `nanos` components, not with the whole temporal object. See: any @Embedded @Embeddable
 
 ### Working with Temporal Values
 
@@ -160,21 +183,6 @@ This approach ensures:
 |--------|-------------|-------------|
 | `isZero()` | `boolean` | Check if value is zero |
 
-## 🗄️ Database Schema
-
-When used in JPA entities, the library creates two columns per temporal field:
-
-```sql
-CREATE TABLE event (
-    id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255),
-    event_timestamp_seconds BIGINT NOT NULL,
-    event_timestamp_nanos INT NOT NULL,
-    duration_seconds BIGINT NOT NULL,
-    duration_nanos INT NOT NULL
-);
-```
-
 ## 🧪 Testing
 
 The library includes comprehensive unit tests with >90% code coverage:
@@ -228,16 +236,15 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Inspired by real-world JPA temporal handling challenges
-- Built with modern Java practices and comprehensive testing
-- Community-driven development and feedback
+- Inspired by frustration: JDK supporting nanosecond precision while the RDBMS-s "under" ORM/JPA being "Russian roulette"
+- It is a PoC, no harm intended
 
 ## 📞 Support
+
+Depends on adoption...
 
 - 📖 [Documentation](https://github.com/baalintnagy/jpa-nano-temporal/wiki)
 - 🐛 [Issue Tracker](https://github.com/baalintnagy/jpa-nano-temporal/issues)
 - 💬 [Discussions](https://github.com/baalintnagy/jpa-nano-temporal/discussions)
 
 ---
-
-**Made with ❤️ by the Boava Team**
