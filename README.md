@@ -32,7 +32,7 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.baalintnagy</groupId>
     <artifactId>jpa.nano-temporal</artifactId>
-    <version>0.9.2</version>
+    <version>0.9.2b</version>
 </dependency>
 ```
 
