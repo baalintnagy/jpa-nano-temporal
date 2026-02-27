@@ -11,12 +11,12 @@ A JPA embeddable type for storing temporal values with nanosecond precision acro
 
 JPA/Hibernate has inconsistent handling of temporal types across different database systems:
 
-| Database   | Instant Support | Duration Support | Precision Loss |
-|------------|-----------------|------------------|----------------|
-| MariaDB    | ❌ Second-only  | ❌ Second-only  | **Yes**        |
-| H2         | ❌ Second-only  | ❌ Second-only  | **Yes**        |
-| PostgreSQL | ✅ Native       | ✅ INTERVAL     | **No**         |
-| MySQL      | ❌ Second-only  | ❌ Second-only  | **Yes**        |
+| Database | Instant Support | Duration Support | Precision Loss |
+|----------|-----------------|------------------|----------------|
+| MariaDB  | ❌ Second-only  | ❌ Second-only   | ✅ Yes |
+| H2       | ❌ Second-only  | ❌ Second-only   | ✅ Yes |
+| PostgreSQL | ✅ Native      | ✅ INTERVAL      | ❌ No |
+| MySQL    | ❌ Second-only  | ❌ Second-only   | ✅ Yes |
 
 This library solves these problems by:
 - ✅ **Consistent behavior** across all supported databases
@@ -32,14 +32,14 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.baalintnagy</groupId>
     <artifactId>jpa.nano-temporal</artifactId>
-    <version>0.9.2f</version>
+    <version>0.9.2b</version>
 </dependency>
 ```
 
 Or to your `build.gradle`:
 
 ```groovy
-implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.2f'
+implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.2'
 ```
 
 ## Quick Start
