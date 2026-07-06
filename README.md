@@ -32,14 +32,14 @@ Add the dependency to your `pom.xml`:
 <dependency>
     <groupId>io.github.baalintnagy</groupId>
     <artifactId>jpa.nano-temporal</artifactId>
-    <version>0.9.2g</version>
+    <version>0.9.2h</version>
 </dependency>
 ```
 
 Or to your `build.gradle`:
 
 ```groovy
-implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.2g'
+implementation 'io.github.baalintnagy:jpa.nano-temporal:0.9.2h'
 ```
 
 ## Quick Start
